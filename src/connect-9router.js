@@ -13,7 +13,7 @@
  * Usage:
  *   node src/connect-9router.js \
  *     --base http://localhost:20128 --password 123456 \
- *     --api-key sk-ORocEQY7i…(25-char) [--name "RouterPlex"] [--prefix routerplex]
+ *     --api-key YOUR_KEY (25-char) [--name "RouterPlex"] [--prefix routerplex]
  *
  *   node src/connect-9router.js                  # register every key in keys.txt
  *   node src/connect-9router.js --model <id>     # pin the connection's default model
