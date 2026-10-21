@@ -121,6 +121,8 @@ node src/cli.js --screen         # test the exit list against sign-up + the API
 
 以下所有检查均于 **2026-10-21** 从随附的 CLI 重新运行（出口：来自运营方池的一条经过审查的住宅线路 — 数据中心出口能加载表单，但从不挂载组件，见下文）。
 
+**9/10 keys live** — one key was rotated out after a leaked sample prefix; the replacement slot needs a fresh (unused) network for the trial grant.
+
 | 检查 | 结果 |
 | --- | --- |
 | `--screen`（出口审查） | **✔** — `routerplex.com/sign-up` **200** 且为真实表单，API 对**一次性密钥**探测返回 JSON **401**（匿名探测即使从可用出口也会被 Cloudflare 403 质询，因此审查会为其配密钥） |

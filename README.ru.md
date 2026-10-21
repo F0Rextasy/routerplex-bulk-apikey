@@ -121,6 +121,8 @@ node src/cli.js --screen         # test the exit list against sign-up + the API
 
 Все проверки ниже были повторно запущены **2026-10-21** из поставляемого CLI (выход: проверенная резидентная линия из пула оператора — выходы дата-центров загружают форму, но никогда не монтируют виджет, см. ниже).
 
+**9/10 keys live** — one key was rotated out after a leaked sample prefix; the replacement slot needs a fresh (unused) network for the trial grant.
+
 | Проверка | Результат |
 | --- | --- |
 | `--screen` (проверка выхода) | **✔** — `routerplex.com/sign-up` **200** с настоящей формой, и API отвечает на пробу с **одноразовым ключом** JSON **401** (анонимная проба получает 403-челлендж от Cloudflare даже с рабочего выхода, поэтому проверка использует ключ) |

@@ -121,6 +121,8 @@ Kayıt gerçek, görünür bir Chrome gerektirir: kayıt çağrısı bir Turnsti
 
 Aşağıdaki tüm kontroller **2026-10-21** tarihinde gönderilen CLI'dan yeniden çalıştırıldı (çıkış: operatör havuzundan incelenmiş bir konut hattı — veri merkezi çıkışları formu yükler ama widget'ı asla bağlamaz, aşağıya bakın).
 
+**9/10 keys live** — one key was rotated out after a leaked sample prefix; the replacement slot needs a fresh (unused) network for the trial grant.
+
 | Kontrol | Sonuç |
 | --- | --- |
 | `--screen` (çıkış incelemesi) | **✔** — `routerplex.com/sign-up` gerçek formla **200** ve API, **tek kullanımlık anahtarlı** bir yoklamaya JSON **401** yanıtı veriyor (anonim bir yoklama, çalışan bir çıkıştan bile Cloudflare tarafından 403 ile karşılanır, bu nedenle inceleme onu anahtarlar) |

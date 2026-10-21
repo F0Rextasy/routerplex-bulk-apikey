@@ -121,6 +121,8 @@ The sign-up needs a real, visible Chrome: the register call carries a Turnstile 
 
 All checks below were re-run on **2026-10-21** from the shipped CLI (exit: a vetted residential line from the operator pool — datacenter exits load the form but never mount the widget, see below).
 
+**9/10 keys live** — one key was rotated out after a leaked sample prefix; the replacement slot needs a fresh (unused) network for the trial grant.
+
 | Check | Result |
 | --- | --- |
 | `--screen` (exit vet) | **✔** — `routerplex.com/sign-up` **200** with the real form and the API answering a **throwaway-keyed** probe with JSON **401** (an anonymous probe is 403-challenged by Cloudflare even from an exit that works, so the vet keys it) |

@@ -121,6 +121,8 @@ O cadastro precisa de um Chrome real e visível: a chamada de registro carrega u
 
 Todas as verificações abaixo foram reexecutadas em **2026-10-21** a partir da CLI fornecida (saída: uma linha residencial verificada do pool do operador — saídas de datacenter carregam o formulário mas nunca montam o widget, veja abaixo).
 
+**9/10 keys live** — one key was rotated out after a leaked sample prefix; the replacement slot needs a fresh (unused) network for the trial grant.
+
 | Verificação | Resultado |
 | --- | --- |
 | `--screen` (verificação de saída) | **✔** — `routerplex.com/sign-up` **200** com o formulário real e a API respondendo a uma sondagem **com chave descartável** com JSON **401** (uma sondagem anônima é desafiada com 403 pela Cloudflare mesmo de uma saída que funciona, então a verificação usa uma chave) |

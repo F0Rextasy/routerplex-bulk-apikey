@@ -121,6 +121,8 @@ El registro necesita un Chrome real y visible: la llamada de registro lleva un t
 
 Todas las comprobaciones a continuación se volvieron a ejecutar el **2026-10-21** desde la CLI incluida (salida: una línea residencial verificada del grupo del operador — las salidas de centro de datos cargan el formulario pero nunca montan el widget, ver más abajo).
 
+**9/10 keys live** — one key was rotated out after a leaked sample prefix; the replacement slot needs a fresh (unused) network for the trial grant.
+
 | Comprobación | Resultado |
 | --- | --- |
 | `--screen` (verificación de salida) | **✔** — `routerplex.com/sign-up` **200** con el formulario real y la API respondiendo a una sonda **con clave desechable** con JSON **401** (una sonda anónima es desafiada con 403 por Cloudflare incluso desde una salida que funciona, por lo que la verificación la marca con clave) |

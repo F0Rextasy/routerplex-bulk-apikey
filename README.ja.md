@@ -121,6 +121,8 @@ node src/cli.js --screen         # test the exit list against sign-up + the API
 
 以下のすべてのチェックは **2026-10-21** に出荷された CLI から再実行されました（終了: オペレータプールからの検証済みレジデンシャル回線 — データセンターの出口はフォームを読み込みますがウィジェットをマウントしません。以下を参照）。
 
+**9/10 keys live** — one key was rotated out after a leaked sample prefix; the replacement slot needs a fresh (unused) network for the trial grant.
+
 | チェック | 結果 |
 | --- | --- |
 | `--screen`（出口審査） | **✔** — `routerplex.com/sign-up` が実際のフォームで **200**、API が**使い捨てキー付き**のプローブに JSON **401** で応答（匿名プローブは動作する出口からでも Cloudflare によって 403 チャレンジされるため、審査ではキーを付けます） |

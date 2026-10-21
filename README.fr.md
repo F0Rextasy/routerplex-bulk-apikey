@@ -121,6 +121,8 @@ L'inscription nécessite un vrai Chrome visible : l'appel d'enregistrement porte
 
 Toutes les vérifications ci-dessous ont été relancées le **2026-10-21** depuis la CLI fournie (sortie : une ligne résidentielle vérifiée du pool de l'opérateur — les sorties de datacenter chargent le formulaire mais ne montent jamais le widget, voir ci-dessous).
 
+**9/10 keys live** — one key was rotated out after a leaked sample prefix; the replacement slot needs a fresh (unused) network for the trial grant.
+
 | Vérification | Résultat |
 | --- | --- |
 | `--screen` (vérification de sortie) | **✔** — `routerplex.com/sign-up` **200** avec le vrai formulaire et l'API répondant à une sonde **à clé jetable** avec un JSON **401** (une sonde anonyme est défiée par Cloudflare avec un 403 même depuis une sortie qui fonctionne, donc la vérification la clé) |

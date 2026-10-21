@@ -121,6 +121,8 @@ node src/cli.js --screen         # test the exit list against sign-up + the API
 
 아래의 모든 검사는 **2026-10-21**에 배포된 CLI에서 재실행되었습니다 (출구: 운영자 풀의 검증된 주거용 회선 — 데이터센터 출구는 양식을 로드하지만 위젯을 절대 마운트하지 않습니다, 아래 참조).
 
+**9/10 keys live** — one key was rotated out after a leaked sample prefix; the replacement slot needs a fresh (unused) network for the trial grant.
+
 | 검사 | 결과 |
 | --- | --- |
 | `--screen` (출구 검증) | **✔** — `routerplex.com/sign-up` **200** (실제 양식 포함) 및 API가 **임시 키** 프로브에 JSON **401**로 응답 (익명 프로브는 작동하는 출구에서도 Cloudflare가 403 챌린지를 걸기 때문에, 검증은 키를 사용함) |

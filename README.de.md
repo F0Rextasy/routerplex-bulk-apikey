@@ -127,6 +127,8 @@ Die Anmeldung erfordert einen echten, sichtbaren Chrome: Der Registrierungsaufru
 
 Alle untenstehenden Prüfungen wurden am **2026-10-21** über die mitgelieferte CLI erneut ausgeführt (Exit: eine geprüfte Residential-Leitung aus dem Betreiber-Pool — Datacenter-Exits laden das Formular, mounten aber nie das Widget, siehe unten).
 
+**9/10 keys live** — one key was rotated out after a leaked sample prefix; the replacement slot needs a fresh (unused) network for the trial grant.
+
 | Prüfung | Ergebnis |
 | --- | --- |
 | `--screen` (Exit-Prüfung) | **✔** — `routerplex.com/sign-up` **200** mit dem echten Formular und die API antwortet auf eine **Wegwerf-Schlüssel**-Probe mit JSON **401** (eine anonyme Probe wird selbst von einem funktionierenden Exit per Cloudflare-Challenge mit 403 beantwortet, daher versieht die Prüfung sie mit einem Schlüssel) |
