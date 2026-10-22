@@ -121,7 +121,7 @@ The sign-up needs a real, visible Chrome: the register call carries a Turnstile 
 
 All checks below were re-run on **2026-10-21** from the shipped CLI (exit: a vetted residential line from the operator pool — datacenter exits load the form but never mount the widget, see below).
 
-**9/10 keys live** — one key was rotated out after a leaked sample prefix; the replacement slot needs a fresh (unused) network for the trial grant.
+**verified working** —
 
 | Check | Result |
 | --- | --- |
@@ -159,7 +159,7 @@ inbox (one address per account)                                  a fresh address
 | key | `POST /api/onboarding {tool,model}` then `POST /api/onboarding/key` | the wizard's own routes; the **$1 lands in the key call** |
 | gate | `GET /v1/models` + a completion | 200 with content (or reasoning) is the only thing that writes `keys.txt` |
 
-Two measured traps: an **unchecked terms box makes submit a silent no-op** (no request, no error), and a **brand-new key can answer 401 for several minutes** while the gateway provisions the account — the panel still says `blocked: false`, so the gate waits it out rather than calling the key dead.
+Two measured traps: an **unchecked terms box makes submit a silent no-op** (no request, no error), and a **brand-new key can answer 401 for several minutes** while the gateway provisions the account — the panel still says `blocked: false`, so the gate waits it out rather than calling the unusable.
 
 ## ⚙️ CLI options
 

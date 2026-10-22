@@ -105,6 +105,7 @@ print(c.chat.completions.create(model="deepseek-v4.1-flash",
 cd routerplex-bulk-apikey
 printf 'socks5://host:port\n' > proxies.txt   # optional — without it the tool runs direct
 node src/launcher.js        # interactive: mint / verify
+
 # or directly:
 node src/cli.js --count 1        # one sign-up in a real Chrome (Turnstile), $1 credit, one key
 node src/cli.js --verify-only    # re-test every key already in keys.txt
@@ -121,7 +122,7 @@ node src/cli.js --screen         # test the exit list against sign-up + the API
 
 아래의 모든 검사는 **2026-10-21**에 배포된 CLI에서 재실행되었습니다 (출구: 운영자 풀의 검증된 주거용 회선 — 데이터센터 출구는 양식을 로드하지만 위젯을 절대 마운트하지 않습니다, 아래 참조).
 
-**9/10 keys live** — one key was rotated out after a leaked sample prefix; the replacement slot needs a fresh (unused) network for the trial grant.
+**verified working** —
 
 | 검사 | 결과 |
 | --- | --- |

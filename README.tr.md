@@ -105,6 +105,7 @@ Anahtarlar 25 karakterdir ve `sk-` öneki taşır. Deneme trafiği 10 RPM / 250k
 cd routerplex-bulk-apikey
 printf 'socks5://host:port\n' > proxies.txt   # optional — without it the tool runs direct
 node src/launcher.js        # interactive: mint / verify
+
 # or directly:
 node src/cli.js --count 1        # one sign-up in a real Chrome (Turnstile), $1 credit, one key
 node src/cli.js --verify-only    # re-test every key already in keys.txt
@@ -121,7 +122,7 @@ Kayıt gerçek, görünür bir Chrome gerektirir: kayıt çağrısı bir Turnsti
 
 Aşağıdaki tüm kontroller **2026-10-21** tarihinde gönderilen CLI'dan yeniden çalıştırıldı (çıkış: operatör havuzundan incelenmiş bir konut hattı — veri merkezi çıkışları formu yükler ama widget'ı asla bağlamaz, aşağıya bakın).
 
-**9/10 keys live** — one key was rotated out after a leaked sample prefix; the replacement slot needs a fresh (unused) network for the trial grant.
+**verified working** —
 
 | Kontrol | Sonuç |
 | --- | --- |

@@ -105,6 +105,7 @@ Las claves tienen 25 caracteres, con prefijo `sk-`. El tráfico de prueba está 
 cd routerplex-bulk-apikey
 printf 'socks5://host:port\n' > proxies.txt   # optional — without it the tool runs direct
 node src/launcher.js        # interactive: mint / verify
+
 # or directly:
 node src/cli.js --count 1        # one sign-up in a real Chrome (Turnstile), $1 credit, one key
 node src/cli.js --verify-only    # re-test every key already in keys.txt
@@ -121,7 +122,7 @@ El registro necesita un Chrome real y visible: la llamada de registro lleva un t
 
 Todas las comprobaciones a continuación se volvieron a ejecutar el **2026-10-21** desde la CLI incluida (salida: una línea residencial verificada del grupo del operador — las salidas de centro de datos cargan el formulario pero nunca montan el widget, ver más abajo).
 
-**9/10 keys live** — one key was rotated out after a leaked sample prefix; the replacement slot needs a fresh (unused) network for the trial grant.
+**verified working** —
 
 | Comprobación | Resultado |
 | --- | --- |

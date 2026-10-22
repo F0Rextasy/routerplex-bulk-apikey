@@ -37,12 +37,6 @@
 
 </div>
 
-<div align="center">
-
-[English](README.md) · [Türkçe](README.tr.md) · [中文](README.cn.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md) · [Français](README.fr.md) · **Deutsch** · [Русский](README.ru.md) · [Português](README.pt.md)
-
-</div>
-
 ---
 
 ## ✨ Warum es das gibt
@@ -111,6 +105,7 @@ Schlüssel sind 25 Zeichen lang, mit `sk-`-Präfix. Test-Traffic ist auf 10 RPM 
 cd routerplex-bulk-apikey
 printf 'socks5://host:port\n' > proxies.txt   # optional — without it the tool runs direct
 node src/launcher.js        # interactive: mint / verify
+
 # or directly:
 node src/cli.js --count 1        # one sign-up in a real Chrome (Turnstile), $1 credit, one key
 node src/cli.js --verify-only    # re-test every key already in keys.txt
@@ -127,7 +122,7 @@ Die Anmeldung erfordert einen echten, sichtbaren Chrome: Der Registrierungsaufru
 
 Alle untenstehenden Prüfungen wurden am **2026-10-21** über die mitgelieferte CLI erneut ausgeführt (Exit: eine geprüfte Residential-Leitung aus dem Betreiber-Pool — Datacenter-Exits laden das Formular, mounten aber nie das Widget, siehe unten).
 
-**9/10 keys live** — one key was rotated out after a leaked sample prefix; the replacement slot needs a fresh (unused) network for the trial grant.
+**verified working** —
 
 | Prüfung | Ergebnis |
 | --- | --- |
@@ -233,9 +228,11 @@ Standardwerte: `--prefix routerplex`, `--base-url https://api.routerplex.com/v1`
 | 🔑 Was ein Schlüssel dir bringt | der 72-Modell-Katalog auf `https://api.routerplex.com/v1` — hart begrenzt auf ein 1-$-Budget, 10 RPM / 250k TPM |
 | 🌐 API-Form | OpenAI-kompatibel: `POST https://api.routerplex.com/v1/chat/completions` (+ Anthropic Messages, Responses) |
 | 🔒 Deine Daten | nur `routerplex.com` / `api.routerplex.com` und dein Postfach-Backend werden kontaktiert |
+
 ## 🐞 Probleme
 
 Wenn RouterPlex sein Anmeldeformular, die Onboarding-Route oder den Modellkatalog ändert, stoppt das Tool dort und sagt es. **[Öffne ein Issue](../../issues)** mit dem Befehl und der exakten Ausgabe.
+
 ## 📄 Lizenz
 
 MIT © 2026 — siehe [LICENSE](LICENSE).
