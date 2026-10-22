@@ -25,6 +25,7 @@
 [![License](https://img.shields.io/badge/license-MIT-6ea8fe?style=for-the-badge)](LICENSE)
 [![Models](https://img.shields.io/badge/models-72%20served-412991?style=for-the-badge)](https://docs.routerplex.com/models)
 [![9Router](https://img.shields.io/badge/9Router-connector-8B5CF6?style=for-the-badge)](#-connect-to-9router)
+[![OmniRoute](https://img.shields.io/badge/OmniRoute-connector-8B5CF6?style=for-the-badge)](#-connect-to-omniroute)
 [![X](https://img.shields.io/badge/X-%40bigbullapp-000000?style=for-the-badge&logo=x&logoColor=white)](https://x.com/bigbullapp)
 
 [🛠 Inicio rápido](#-quick-start) · [🎁 Nivel gratuito](#-free-tier--how-much-you-get) · [🤖 Modelos](#-models--all-72-of-them) · [🧪 Usar la API](#-how-to-use-the-api) · [✅ Verificado](#-verified-working--every-key-is-tested) · [🧭 Cómo funciona](#-how-it-works) · [🔌 9Router](#-connect-to-9router) · [⚙️ Opciones](#️-cli-options) · [🛰️ Proxies](#️-behind-a-proxy) · [🐞 Problemas](#-issues)
@@ -219,6 +220,15 @@ node src/connect-9router.js --base http://localhost:20128 --password 123456
 
 Predeterminados: `--prefix routerplex`, `--base-url https://api.routerplex.com/v1`, `--model deepseek-v4.1-flash`. Los modelos se sirven como `routerplex/<model id>`. La CLI puede hacer lo mismo de una sola vez: `node src/cli.js --connect-9router`.
 
+## 🔌 Conectar a OmniRoute
+
+[OmniRoute](https://omniroute.online) es un enrutador autoalojado compatible con OpenAI:
+
+```bash
+node src/connect-omniroute.js --base http://localhost:20128 --password 123456
+```
+
+Predeterminados: `--prefix routerplex`, `--base-url https://api.routerplex.com/v1`, `--model deepseek-v4.1-flash`. Los modelos se sirven como `routerplex/<model id>`. La CLI puede hacer lo mismo de una sola vez: `node src/cli.js --connect-omniroute`.
 ## 🔑 Qué te da una clave
 
 | | |

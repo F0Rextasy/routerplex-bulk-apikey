@@ -120,6 +120,11 @@ The sign-up needs a real, visible Chrome: the register call carries a Turnstile 
 
 ## ✅ Verified working — every key is tested
 
+> **Quality gates.** Every key here passed a live `chat-200` before it was written to `keys.txt`
+> (dead keys are never shipped). Router combos follow the same rule at the model level: an entry is
+> added **only if the model answers `chat-200` and can call tools** — a model without tool support,
+> a dead key or a dead provider is dropped instead of added. Works with **9Router and OmniRoute**.
+
 All checks below were re-run on **2026-10-21** from the shipped CLI (exit: a vetted residential line from the operator pool — datacenter exits load the form but never mount the widget, see below).
 
 **verified working** —
@@ -218,7 +223,6 @@ node src/connect-9router.js --base http://localhost:20128 --password 123456
 ```
 
 Defaults: `--prefix routerplex`, `--base-url https://api.routerplex.com/v1`, `--model deepseek-v4.1-flash`. Models are served as `routerplex/<model id>`. The CLI can do the same in one shot: `node src/cli.js --connect-9router`.
-
 
 ## 🔌 Connect to OmniRoute
 
