@@ -28,7 +28,7 @@
 [![OmniRoute](https://img.shields.io/badge/OmniRoute-connector-8B5CF6?style=for-the-badge)](#-connect-to-omniroute)
 [![X](https://img.shields.io/badge/X-%40bigbullapp-000000?style=for-the-badge&logo=x&logoColor=white)](https://x.com/bigbullapp)
 
-[🛠 クイックスタート](#-quick-start) · [🎁 無料枠](#-free-tier--how-much-you-get) · [🤖 モデル](#-models--all-72-of-them) · [🧪 API の使い方](#-how-to-use-the-api) · [✅ 検証済み](#-verified-working--every-key-is-tested) · [🧭 仕組み](#-how-it-works) · [🔌 9Router](#-connect-to-9router) · [⚙️ オプション](#️-cli-options) · [🛰️ プロキシ](#️-behind-a-proxy) · [🐞 問題報告](#-issues)
+[🛠 クイックスタート](#-quick-start) · [🎁 無料枠](#-free-tier--how-much-you-get) · [🤖 モデル](#-models--all-72-of-them) · [🧪 API の使い方](#-how-to-use-the-api) · [✅ 検証済み](#-verified-working--every-key-is-tested) · [🧭 仕組み](#-how-it-works) · [🔌 9Router](#-connect-to-9router) · [🔌 OmniRoute](#-connect-to-omniroute) · [⚙️ オプション](#️-cli-options) · [🛰️ プロキシ](#️-behind-a-proxy) · [🐞 問題](#-issues)
 
 </div>
 
@@ -42,31 +42,31 @@
 
 ## ✨ これが存在する理由
 
-RouterPlex は Cloudflare を前面に置いた AI ゲートウェイで、**手に入れる価値のある特典が 1 つあります。それは検証済みアカウントごとに 1 回だけ付与される $1 のテストクレジットです**（カード不要、電話番号不要、セットアップキーが作成された時点で付与されます）。その背後にあるカタログは 72 モデル — Anthropic、OpenAI、Google、DeepSeek、Qwen、MiniMax、Kimi、Grok — で、OpenAI 互換エンドポイントを通じてベンダー定価で提供され、さらに Anthropic Messages と Codex 用の Responses ルートもあります。サインアップは単純なメールフォームですが、register 呼び出しには **Cloudflare Turnstile** トークンが含まれており、ブラウザ以外のものには `403 __cf_chl_rt_tk` を返すため、このツールは実際の Chrome を操作し、ライブのチャット呼び出しを通過したキーだけを保持します。
+RouterPlex は Cloudflare を前面に置いた AI ゲートウェイで、**手に入れる価値のある特典がひとつだけあります。それは検証済みアカウントごとに一度だけ付与される $1 のテストクレジットです**（カード不要、電話番号不要、セットアップキーが作成された時点で付与されます）。その背後にあるカタログは 72 モデル — Anthropic、OpenAI、Google、DeepSeek、Qwen、MiniMax、Kimi、Grok — で、OpenAI 互換エンドポイントを通じてベンダー定価で提供され、さらに Anthropic Messages と Codex 用の Responses ルートもあります。サインアップは普通のメールフォームですが、register 呼び出しには **Cloudflare Turnstile** トークンが含まれており、ブラウザ以外のものには `403 __cf_chl_rt_tk` を返すため、このツールは実際の Chrome を操作し、ライブのチャット呼び出しを通過したキーだけを保持します。
 
 ## 🎁 無料枠 — どれだけ得られるか
 
 | 項目 | 値 |
 | --- | --- |
-| 無料クレジット | **対象となる検証済みアカウントごとに 1 回 $1.00**、`POST /api/onboarding/key` 内で付与（パネル: `trial_credit_usd: 1.0`、`trial_granted: true`） |
+| 無料クレジット | **対象となる検証済みアカウントごとに一度だけ $1.00**、`POST /api/onboarding/key` 内で付与（パネル: `trial_credit_usd: 1.0`、`trial_granted: true`） |
 | キー予算 | セットアップキーはハードな `max_budget: 1.0`（USD）から始まる |
-| レート制限 | **10 リクエスト/分**、**250,000 トークン/分**（キー行の `rpm_limit: 10`、`tpm_limit: 250000`）、提供条件による同時 4 リクエスト |
+| レート制限 | **10 リクエスト/分**、**250,000 トークン/分**（キー行に `rpm_limit: 10`、`tpm_limit: 250000`）、提供条件により同時 4 リクエスト |
 | 有効期限 | **なし** — `expires: null`、クレジットは失効しない |
-| カード / 電話 | **カード不要、電話不要** — 「カードは不要です。サインアップとガイド付きセットアップに支払いステップはありません。」 |
-| 対象条件 | 検証済みメール + 過去の有料チャージなし、既存クレジットなし、過去のセットアップクレジット付与なし（アカウントごとに 1 回の付与、ライブで確認: キー作成後に `trial_eligible` は `false` に変わる） |
-| $1 の後 | 従量課金のみ、最低チャージ額 **$5**（カードまたは暗号通貨）、チャージ手数料 $0、トークンマークアップ 0% |
+| カード / 電話番号 | **カード不要、電話番号不要** — 「カードは不要です。サインアップとガイド付きセットアップに支払いステップはありません。」 |
+| 対象条件 | 検証済みメール + 過去の有料チャージなし、既存クレジットなし、過去のセットアップクレジット付与なし（アカウントごとに一度の付与、ライブで確認: キー作成後に `trial_eligible` が `false` に変わる） |
+| $1 の後 | 従量課金のみ、最低チャージ **$5**（カードまたは暗号通貨）、チャージ手数料 $0、トークンマークアップ 0% |
 
-プロモーションクレジットには現金価値はなく、不正利用に対して取り消される場合があります — 1 アカウント、1 キー、1 付与がスケールする単位です。
+プロモーションクレジットには現金価値はなく、不正利用に対して撤回されることがあります — 1 アカウント、1 キー、1 付与がスケールする単位です。
 
-> 💡 無料枠は RouterPlex によって設定され、変更される可能性があります。最新の数値は [routerplex.com](https://routerplex.com) で確認してください — そしてツール自身のゲートに判断させてください:
+> 💡 無料枠は RouterPlex が設定するもので、変更される可能性があります。最新の数値は [routerplex.com](https://routerplex.com) で確認してください — そしてツール自身のゲートに判断を委ねてください:
 
 ```bash
 node src/cli.js --verify-only     # every key in keys.txt is re-tested with a real chat call
 ```
 
-## 🤖 モデル — そのすべて 72 個
+## 🤖 モデル — その 72 すべて
 
-`GET /v1/models` はライブのトライアルキーで **200 と 72 個の id** を返しました（2026-10-21）。このツールが書き込むすべてのキーはすでに実際の completion に応答しており、次の 5 つはエンドツーエンドでチャット検証されました:
+`GET /v1/models` はライブのトライアルキーで **200 と 72 個の id** を返しました（2026-10-21）。このツールが書き込むすべてのキーはすでに実際の completion に応答しており、次の 5 つはエンドツーエンドでチャット検証済みです:
 
 | モデル ID | 備考 |
 | --- | --- |
@@ -93,12 +93,12 @@ curl --fail-with-body https://api.routerplex.com/v1/chat/completions \
 
 ```python
 from openai import OpenAI
-c = OpenAI(base_url="https://api.routerplex.com/v1", api_key="YOUR_KEY")
+c = OpenAI(base_url="https://api.routerplex.com/v1", api_key="<your key>")
 print(c.chat.completions.create(model="deepseek-v4.1-flash",
       messages=[{"role": "user", "content": "hi"}]).choices[0].message.content)
 ```
 
-キーは 25 文字で、`sk-` が先頭に付きます。トライアルのトラフィックは 10 RPM / 250k TPM / 同時 4 に制限されているため、バーストすると **429** が返ります。呼び出しの間隔を空けてください。
+キーは 25 文字で、`sk-` が先頭に付きます。トライアルのトラフィックは 10 RPM / 250k TPM / 同時 4 に制限されているため、バーストすると **429** を返します。呼び出しの間隔を空けてください。
 
 ## 🛠 クイックスタート
 
@@ -113,31 +113,35 @@ node src/cli.js --verify-only    # re-test every key already in keys.txt
 node src/cli.js --screen         # test the exit list against sign-up + the API
 ```
 
-サインアップには実際の可視 Chrome が必要です: register 呼び出しには Turnstile トークンが含まれており、Cloudflare はプレーンな HTTP クライアントに `403 __cf_chl_rt_tk` を返します。`keys.txt` は `GET /v1/models` **および**実際の completion の後にのみ書き込まれ、`accounts.json` はアカウントの状態（メール、パスワード、キー、ツール）を保持します。1 アカウント = 1 キー = 1 回の $1 付与です。
+サインアップには実際の可視 Chrome が必要です: register 呼び出しには Turnstile トークンが含まれており、Cloudflare はプレーンな HTTP クライアントに `403 __cf_chl_rt_tk` を返します。`keys.txt` は `GET /v1/models` **および**実際の completion の後にのみ書き込まれ、`accounts.json` はアカウントの状態（メール、パスワード、キー、ツール）を保持します。1 アカウント = 1 キー = $1 の付与 1 回です。
 
 ### 🖱️ ランチャー
 
-`node src/launcher.js` は、このリポジトリが提供するタスクモジュールのメニューです — **mint**（新しいアカウント、その検証済みメール、$1 セットアップキー）と **verify**（`keys.txt` に対してライブゲートを再実行）で、プロキシプールとアカウント数は `launcher.config.json` に保持されます。以下のすべてのフラグは CLI から直接利用できます。ランチャーは単なる便利なラッパーです。
+`node src/launcher.js` は、このリポジトリが提供するタスクモジュールの上に載るメニューです — **mint**（新しいアカウント、その検証済みメール、$1 のセットアップキー）と **verify**（`keys.txt` に対してライブゲートを再実行）で、プロキシプールとアカウント数は `launcher.config.json` に保持されます。以下のすべてのフラグは CLI から直接到達可能です。ランチャーは単なる便利なラッパーです。
 
-## ✅ 動作検証済み — すべてのキーがテストされる
+## ✅ 動作検証済み — すべてのキーがテストされています
 
-以下のすべてのチェックは **2026-10-21** に出荷された CLI から再実行されました（終了: オペレータプールからの検証済みレジデンシャル回線 — データセンターの出口はフォームを読み込みますがウィジェットをマウントしません。以下を参照）。
-
-**verified working** —
+以下のすべてのチェックは **2026-10-21** に出荷された CLI で再実行されました（終了: オペレータプールからの精査済みレジデンシャル回線 — データセンターの出口はフォームを読み込みますがウィジェットをマウントしません、下記参照）。
 
 | チェック | 結果 |
 | --- | --- |
-| `--screen`（出口審査） | **✔** — `routerplex.com/sign-up` が実際のフォームで **200**、API が**使い捨てキー付き**のプローブに JSON **401** で応答（匿名プローブは動作する出口からでも Cloudflare によって 403 チャレンジされるため、審査ではキーを付けます） |
+| `--screen`（出口の精査） | **✔** — `routerplex.com/sign-up` が実際のフォームで **200**、API が**使い捨てキー**のプローブに JSON **401** で応答（匿名プローブは機能する出口からでも Cloudflare に 403 チャレンジされるため、精査はキーを付ける） |
 | 実際の Chrome でのサインアップ | **✔ 201** `POST /api/auth/register` → `200 /api/auth/login` → `/dashboard/setup` |
 | メール検証 | **✔** — 受信トレイからの `verify?token=…` リンク、その後 `/api/auth/me` が `is_verified: true` を報告 |
 | `POST /api/onboarding` | **200** `trial_credit_usd: 1.0`、`trial_eligible: true` |
 | `POST /api/onboarding/key` | **200** `{"key":"sk-…"}`、`trial_granted: true`、`access_mode: "trial"` |
 | キーごとの `GET /v1/models` | **200**、72 個の id |
 | 書き込まれる前のキーごとの `POST /v1/chat/completions` | **200** — `deepseek-v4.1-flash`（`content \|\| reasoning_content`）、`claude-haiku-4-5`、`gemini-2.5-flash-lite`、`MiniMax-M3`、`qwen3.8-flash` でも 200 |
-| 発行後のキー行 | `max_budget 1.0`、`rpm_limit 10`、`tpm_limit 250000`、`blocked false`、`expires null` |
-| チェックに失敗したキー | `keys.txt` に書き込まれない（ゲートは新しいキーの 401 ウィンドウを破棄せずに再試行します） |
+| ミント後のキー行 | `max_budget 1.0`、`rpm_limit 10`、`tpm_limit 250000`、`blocked false`、`expires null` |
+| チェックに失敗したキー | `keys.txt` に書き込まれることはない（ゲートは新しいキーの 401 ウィンドウを破棄せずに待つ） |
 
-最初の呼び出しのコスト: `claude-haiku-4-5` で `$0.00056328`、つまりフラッシュモデルの価格では $1 はかなりのトライアルトラフィックになります。
+最初の呼び出しのコスト: `claude-haiku-4-5` で `$0.00056328`、つまり $1 はフラッシュモデルの価格ではかなりのトライアルトラフィックになります。
+
+> **品質ゲート。** ここにあるすべてのキーは、`keys.txt` に書き込まれる前にライブの `chat-200` を通過しています
+> （死んだキーは決して出荷されません）。ルーターのコンボもモデルレベルで同じルールに従います: エントリは
+> **モデルが `chat-200` に応答し、ツールを呼び出せる場合にのみ**追加されます — ツールサポートのないモデル、
+> 死んだキー、死んだプロバイダは追加されずに破棄されます。検証ステップはいつでも再実行できます。
+> 失敗は報告され、決して隠されません。
 
 ## 🧭 仕組み
 
@@ -152,16 +156,16 @@ inbox (one address per account)                                  a fresh address
 
 | ステップ | 呼び出し | 備考 |
 | --- | --- | --- |
-| 審査 | `GET routerplex.com/sign-up` + `GET api.routerplex.com/v1/models` | 審査では API プローブにキーを付け（匿名では 403 チャレンジされます）、メールボックスを消費する前に、フォームではなくチャレンジページを返す出口をスキップします |
-| メールボックス | 実際の `@hotmail.com`/`@outlook.com` ボックス上の temp.tf プラスエイリアス | `/api/account` の後に `POST /api/check`、`routerplex` からのメールのみ受け入れ（ボックスは共有プールです） |
-| フォーム | 実際の Chrome での `/sign-up` | 名前 + メール + パスワード + **利用規約チェックボックス**、オプションの測定バナーは最初に閉じられます |
-| キャプチャ | ページ自身の Turnstile（managed、sitekey `0x4AAAAAAD0CGKtkBfp1Bvp6`） | 可視ウィンドウで自動解決、トークンは register ボディに乗ります |
-| 登録 | `POST /api/auth/register`（201）の後に `/api/auth/login`（200） | ページが両方を行い、`/dashboard/setup` に着地します |
+| 精査 | `GET routerplex.com/sign-up` + `GET api.routerplex.com/v1/models` | 精査は API プローブにキーを付ける（匿名では 403 チャレンジされる）そして、メールボックスを消費する前に、フォームではなくチャレンジページを返す出口をスキップする |
+| メールボックス | 実際の `@hotmail.com`/`@outlook.com` ボックス上の temp.tf プラスエイリアス | `/api/account` の後に `POST /api/check`、`routerplex` からのメールのみ受け入れる（ボックスは共有プール） |
+| フォーム | 実際の Chrome での `/sign-up` | 名前 + メール + パスワード + **規約チェックボックス**、オプションの計測バナーは最初に閉じられる |
+| キャプチャ | ページ自身の Turnstile（managed、sitekey `0x4AAAAAAD0CGKtkBfp1Bvp6`） | 可視ウィンドウで自己解決、トークンは register ボディに乗る |
+| 登録 | `POST /api/auth/register`（201）の後に `/api/auth/login`（200） | ページが両方を行い、`/dashboard/setup` に着地する |
 | 検証 | メールから `https://routerplex.com/verify?token=…` を開く | リンクはメールの `href` にあり、JWT `aud=fastapi-users:verify`、約 1 時間 |
-| キー | `POST /api/onboarding {tool,model}` の後に `POST /api/onboarding/key` | ウィザード自身のルート、**$1 はキー呼び出しで付与されます** |
-| ゲート | `GET /v1/models` + completion | コンテンツ（または reasoning）付きの 200 だけが `keys.txt` を書き込みます |
+| キー | `POST /api/onboarding {tool,model}` の後に `POST /api/onboarding/key` | ウィザード自身のルート、**$1 はキー呼び出しで付与される** |
+| ゲート | `GET /v1/models` + completion | コンテンツ（または reasoning）付きの 200 だけが `keys.txt` を書き込む |
 
-測定された 2 つの罠: **利用規約チェックボックスが未チェックだと送信がサイレントな no-op になります**（リクエストなし、エラーなし）、そして**新品のキーはゲートウェイがアカウントをプロビジョニングする間、数分間 401 を返すことがあります** — パネルは依然として `blocked: false` と表示するため、ゲートはキーを死んだと判断せずに待ちます。
+測定された 2 つの罠: **規約チェックボックスが未チェックだと送信がサイレントな no-op になる**（リクエストなし、エラーなし）、そして**真新しいキーはゲートウェイがアカウントをプロビジョニングする間、数分間 401 を返すことがある** — パネルは依然として `blocked: false` と言うので、ゲートはキーを使用不能と判断せずに待ちます。
 
 ## ⚙️ CLI オプション
 
@@ -177,69 +181,70 @@ node src/cli.js --help
 
 | フラグ | デフォルト | 意味 |
 | --- | --- | --- |
-| `--count N` | `1` | 発行するアカウント数、直列 |
+| `--count N` | `1` | ミントするアカウント数、直列 |
 | `--model <id>` | `deepseek-v4.1-flash` | ライブゲートに使用するモデル |
-| `--tool <id>` | `claude-code` | トライアルを請求するセットアップウィザードツール |
+| `--tool <id>` | `claude-code` | トライアルを要求するセットアップウィザードツール |
 | `--pool <file>` | `proxies.txt` | 出口プール、1 行につき 1 プロキシ — オプション |
-| `--tries N` | `3` | アカウントごとに審査する出口候補 |
+| `--tries N` | `3` | アカウントごとに精査する出口候補 |
 | `--mint-tries N` | `3` | 出口ごとの完全なサインアップ試行（新しいメールボックス + Chrome） |
 | `--link-timeout S` | `300` | 検証メールを待つ秒数 |
 | `--grant-wait S` | `150` | 新しいキーの 401 ウィンドウを待つ秒数 |
 | `--gap MS` | `4000` | アカウント間の一時停止 |
 | `--keys <file>` | `keys.txt` | `--verify-only` / `--connect-9router` 用のキーファイル |
-| `--headless` | off | Chrome をヘッドレスで実行（可視ウィンドウがテスト済みのレールです） |
-| `--debug-port N` | auto | Chrome DevTools ポート |
+| `--headless` | オフ | Chrome をヘッドレスで実行（可視ウィンドウがテスト済みのレール） |
+| `--debug-port N` | 自動 | Chrome DevTools ポート |
 
 ## 🛰️ プロキシの背後で
 
-**オプション — 規模を拡大する場合は推奨（IP ごとの制限、BAN）。** ツールはプロキシなしでも動作します。
+**オプション — 規模を拡大する場合は推奨（IP ごとの制限、BAN）。** このツールはプロキシなしでも動作します。
 
-- **プールあり:** `--pool <file>` を渡す（または `ROUTERPLEX_PROXIES` を設定する）と、すべてのリクエスト — Chrome ブラウザを含む — がそのリストの出口を通り、fail-closed で動作します: 各候補は最初に審査され（`routerplex.com/sign-up` が実際のフォームで 200 + API ホストに到達可能）、その後実行はその出口に固定されたままになります。死んだ回線は試行に失敗し、CLI は次の候補に移ります。
-- **プールなし:** CLI は `running WITHOUT a proxy (direct)` と表示し、直接接続します。サインアップ、キー発行、検証について何も変わりません — パケットが出ていく場所だけが変わります。
-- **ここでは出口の品質がいつも以上に重要です。** パネルは Cloudflare を前面に置いています: データセンターの出口からでもサインアップページはレンダリングされますが、`challenges.cloudflare.com` はウィジェットをマウントせず（`window.turnstile` は undefined のまま、トークンなし）、register POST は `Just a moment...` の 403 を返します。レジデンシャル/モバイル回線は 750〜800 文字のトークンを取得し、数秒で 201 を返すため、メールボックスを消費する前にウィジェットチェックで審査してください。
+- **プールあり:** `--pool <file>` を渡す（または `ROUTERPLEX_PROXIES` を設定する）と、すべてのリクエスト — Chrome ブラウザを含む — がそのリストの出口を通り、フェイルクローズドになります: 各候補は最初に精査され（`routerplex.com/sign-up` が実際のフォームで 200 + API ホストに到達可能）、その後実行はその出口に固定されたままになります。死んだ回線はその試行に失敗し、CLI は次の候補に移ります。
+- **プールなし:** CLI は `running WITHOUT a proxy (direct)` と表示し、直接接続します。サインアップ、キーのミント、検証について何も変わりません — パケットが出ていく場所だけが変わります。
+- **出口の品質はここではいつも以上に重要です。** パネルは Cloudflare を前面に置いています: データセンターの出口からでもサインアップページはレンダリングされますが、`challenges.cloudflare.com` はウィジェットをマウントせず（`window.turnstile` は undefined のまま、トークンなし）、register POST は `Just a moment...` の 403 を返します。レジデンシャル/モバイル回線は 750-800 文字のトークンを得て数秒で 201 を返すので、メールボックスを消費する前にウィジェットチェックで精査してください。
 - ユーザー名/パスワード付きの SOCKS5 回線はスキップされます: Chrome はそれらに認証できません（認証情報付きの HTTP プロキシは問題ありません — ブラウザは Fetch ドメイン経由で 407 に応答します）。
-- 審査は両方のホストで fail-closed です: サインアップページは実際のフォームでなければならず（Cloudflare チャレンジページは失敗します）、API は使い捨てキー付きのプローブにチャレンジページではなく JSON で応答しなければなりません。
+- 精査は両方のホストでフェイルクローズドです: サインアップページは実際のフォームでなければならず（Cloudflare チャレンジページは失敗します）、API はチャレンジページではなく JSON で使い捨てキーのプローブに応答しなければなりません。
 - どちらのモードでも `--screen` を実行してください: 持っている出口（または直接ルート）をサインアップページと API に対してテストします。
 
 ## 📄 ファイル
 
 | パス | 内容 |
 | --- | --- |
-| `keys.txt` | 1 行につき 1 つのライブ検証済みキー — git で無視 |
+| `keys.txt` | 1 行につき 1 つのライブ検証済みキー — git 無視 |
 | `accounts.json` | メール / パスワード / キー / ツールの状態、失敗した試行を含む |
-| `proxies.txt` | あなたの出口 — git で無視 |
-| `out/` | 実行ログ、失敗のスクリーンショット、`attempts.jsonl` 台帳 — git で無視 |
+| `proxies.txt` | あなたの出口 — git 無視 |
+| `out/` | 実行ログ、失敗のスクリーンショット、`attempts.jsonl` 台帳 — git 無視 |
 
-## 🔌 9Router に接続する
+## 🔌 9Router に接続
 
-[9Router](https://9router.com) はセルフホスト型の OpenAI 互換ルーターです:
+[9Router](https://9router.com) はセルフホストの OpenAI 互換ルーターです:
 
 ```bash
 node src/connect-9router.js --base http://localhost:20128 --password 123456
 ```
 
-デフォルト: `--prefix routerplex`、`--base-url https://api.routerplex.com/v1`、`--model deepseek-v4.1-flash`。モデルは `routerplex/<model id>` として提供されます。CLI でもワンショットで同じことができます: `node src/cli.js --connect-9router`。
+デフォルト: `--prefix routerplex`、`--base-url https://api.routerplex.com/v1`、`--model deepseek-v4.1-flash`。モデルは `routerplex/<model id>` として提供されます。CLI はワンショットで同じことができます: `node src/cli.js --connect-9router`。
 
-## 🔌 OmniRoute に接続する
+## 🔌 OmniRoute に接続
 
-[OmniRoute](https://omniroute.online) はセルフホスト型の OpenAI 互換ルーターです:
+[OmniRoute](https://omniroute.online) はセルフホストの OpenAI 互換ルーターです:
 
 ```bash
 node src/connect-omniroute.js --base http://localhost:20128 --password 123456
 ```
 
-デフォルト: `--prefix routerplex`、`--base-url https://api.routerplex.com/v1`、`--model deepseek-v4.1-flash`。モデルは `routerplex/<model id>` として提供されます。CLI でもワンショットで同じことができます: `node src/cli.js --connect-omniroute`。
+デフォルト: `--prefix routerplex`、`--base-url https://api.routerplex.com/v1`、`--model deepseek-v4.1-flash`。モデルは `routerplex/<model id>` として提供されます。CLI はワンショットで同じことができます: `node src/cli.js --connect-omniroute`。
+
 ## 🔑 1 つのキーで得られるもの
 
 | | |
 | --- | --- |
-| 🏢 プロバイダー | **RouterPlex** — [routerplex.com](https://routerplex.com) |
-| 🎁 プロバイダーが提供するもの | **検証済みアカウントごとに $1 のトライアルクレジット**（1 回の付与、カード不要、失効なし） |
-| 🔑 1 つのキーで得られるもの | `https://api.routerplex.com/v1` 上の 72 モデルカタログ — $1 の予算、10 RPM / 250k TPM でハードキャップ |
-| 🌐 API の形式 | OpenAI 互換: `POST https://api.routerplex.com/v1/chat/completions`（+ Anthropic Messages、Responses） |
-| 🔒 あなたのデータ | `routerplex.com` / `api.routerplex.com` とあなたの受信トレイバックエンドのみが接触されます |
+| 🏢 プロバイダ | **RouterPlex** — [routerplex.com](https://routerplex.com) |
+| 🎁 プロバイダが提供するもの | **検証済みアカウントごとに $1 のトライアルクレジット**（付与 1 回、カード不要、失効なし） |
+| 🔑 1 つのキーで得られるもの | `https://api.routerplex.com/v1` 上の 72 モデルカタログ — $1 予算、10 RPM / 250k TPM でハードキャップ |
+| 🌐 API の形 | OpenAI 互換: `POST https://api.routerplex.com/v1/chat/completions`（+ Anthropic Messages、Responses） |
+| 🔒 あなたのデータ | `routerplex.com` / `api.routerplex.com` とあなたの受信トレイバックエンドのみが接触される |
 
-## 🐞 問題報告
+## 🐞 問題
 
 RouterPlex がサインアップフォーム、オンボーディングルート、またはモデルカタログを変更した場合、ツールはそこで停止し、その旨を報告します。コマンドと正確な出力を添えて **[issue を開いてください](../../issues)**。
 
