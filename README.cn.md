@@ -185,7 +185,7 @@ node src/cli.js --help
 | `--model <id>` | `deepseek-v4.1-flash` | 用于实时关卡的模型 |
 | `--tool <id>` | `claude-code` | 用于领取试用的设置向导工具 |
 | `--pool <file>` | `proxies.txt` | 出口池，每行一个代理 — 可选 |
-| `--tries N` | `3` | 每个账户审查的出口候选数 |
+| `--exits N` | `6` | 每个账户审查的出口候选数 |
 | `--mint-tries N` | `3` | 每个出口的完整注册尝试次数（新邮箱 + Chrome） |
 | `--link-timeout S` | `300` | 等待验证邮件的秒数 |
 | `--grant-wait S` | `150` | 等待新密钥 401 窗口过去的秒数 |

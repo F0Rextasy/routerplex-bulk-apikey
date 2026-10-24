@@ -184,7 +184,7 @@ node src/cli.js --help
 | `--model <id>` | `deepseek-v4.1-flash` | model used for the live gate |
 | `--tool <id>` | `claude-code` | setup wizard tool the trial is claimed with |
 | `--pool <file>` | `proxies.txt` | exit pool, one line per proxy — optional |
-| `--tries N` | `3` | exit candidates vetted per account |
+| `--exits N` | `6` | exit candidates vetted per account |
 | `--mint-tries N` | `3` | full sign-up attempts (fresh mailbox + Chrome) per exit |
 | `--link-timeout S` | `300` | seconds to wait for the verification mail |
 | `--grant-wait S` | `150` | seconds a fresh key's 401 window is waited out |

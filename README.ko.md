@@ -185,7 +185,7 @@ node src/cli.js --help
 | `--model <id>` | `deepseek-v4.1-flash` | 라이브 게이트에 사용되는 모델 |
 | `--tool <id>` | `claude-code` | 트라이얼을 청구하는 설정 마법사 도구 |
 | `--pool <file>` | `proxies.txt` | 출구 풀, 프록시당 한 줄 — 선택 사항 |
-| `--tries N` | `3` | 계정당 검증할 출구 후보 |
+| `--exits N` | `6` | 계정당 검증할 출구 후보 |
 | `--mint-tries N` | `3` | 출구당 전체 가입 시도 (새 메일박스 + Chrome) |
 | `--link-timeout S` | `300` | 검증 메일을 기다리는 초 |
 | `--grant-wait S` | `150` | 새 키의 401 구간을 기다리는 초 |

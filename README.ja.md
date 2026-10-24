@@ -185,7 +185,7 @@ node src/cli.js --help
 | `--model <id>` | `deepseek-v4.1-flash` | ライブゲートに使用するモデル |
 | `--tool <id>` | `claude-code` | トライアルを要求するセットアップウィザードツール |
 | `--pool <file>` | `proxies.txt` | 出口プール、1 行につき 1 プロキシ — オプション |
-| `--tries N` | `3` | アカウントごとに精査する出口候補 |
+| `--exits N` | `6` | アカウントごとに精査する出口候補 |
 | `--mint-tries N` | `3` | 出口ごとの完全なサインアップ試行（新しいメールボックス + Chrome） |
 | `--link-timeout S` | `300` | 検証メールを待つ秒数 |
 | `--grant-wait S` | `150` | 新しいキーの 401 ウィンドウを待つ秒数 |

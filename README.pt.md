@@ -185,7 +185,7 @@ node src/cli.js --help
 | `--model <id>` | `deepseek-v4.1-flash` | modelo usado para o portão ao vivo |
 | `--tool <id>` | `claude-code` | ferramenta do assistente de configuração com a qual o teste é reivindicado |
 | `--pool <file>` | `proxies.txt` | pool de saídas, uma linha por proxy — opcional |
-| `--tries N` | `3` | candidatos de saída verificados por conta |
+| `--exits N` | `6` | candidatos de saída verificados por conta |
 | `--mint-tries N` | `3` | tentativas completas de cadastro (caixa de correio nova + Chrome) por saída |
 | `--link-timeout S` | `300` | segundos para esperar o e-mail de verificação |
 | `--grant-wait S` | `150` | segundos que a janela de 401 de uma chave nova é aguardada |

@@ -186,7 +186,7 @@ node src/cli.js --help
 | `--model <id>` | `deepseek-v4.1-flash` | Modell, das für das Live-Gate verwendet wird |
 | `--tool <id>` | `claude-code` | Setup-Assistent-Tool, mit dem die Testversion beansprucht wird |
 | `--pool <file>` | `proxies.txt` | Exit-Pool, eine Zeile pro Proxy — optional |
-| `--tries N` | `3` | pro Konto geprüfte Exit-Kandidaten |
+| `--exits N` | `6` | pro Konto geprüfte Exit-Kandidaten |
 | `--mint-tries N` | `3` | vollständige Anmeldeversuche (frisches Postfach + Chrome) pro Exit |
 | `--link-timeout S` | `300` | Sekunden, die auf die Verifizierungs-Mail gewartet wird |
 | `--grant-wait S` | `150` | Sekunden, die das 401-Fenster eines frischen Schlüssels abgewartet wird |

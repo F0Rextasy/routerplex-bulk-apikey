@@ -185,7 +185,7 @@ node src/cli.js --help
 | `--model <id>` | `deepseek-v4.1-flash` | modelo usado para la puerta en vivo |
 | `--tool <id>` | `claude-code` | herramienta del asistente de configuración con la que se reclama la prueba |
 | `--pool <file>` | `proxies.txt` | grupo de salidas, una línea por proxy — opcional |
-| `--tries N` | `3` | candidatos de salida verificados por cuenta |
+| `--exits N` | `6` | candidatos de salida verificados por cuenta |
 | `--mint-tries N` | `3` | intentos de registro completos (buzón nuevo + Chrome) por salida |
 | `--link-timeout S` | `300` | segundos de espera para el correo de verificación |
 | `--grant-wait S` | `150` | segundos que se espera la ventana de 401 de una clave nueva |

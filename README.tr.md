@@ -185,7 +185,7 @@ node src/cli.js --help
 | `--model <id>` | `deepseek-v4.1-flash` | canlı kapı için kullanılan model |
 | `--tool <id>` | `claude-code` | deneme hakkının talep edildiği kurulum sihirbazı aracı |
 | `--pool <file>` | `proxies.txt` | çıkış havuzu, satır başına bir proxy — isteğe bağlı |
-| `--tries N` | `3` | hesap başına incelenen çıkış adayı |
+| `--exits N` | `6` | hesap başına incelenen çıkış adayı |
 | `--mint-tries N` | `3` | çıkış başına tam kayıt denemesi (yeni posta kutusu + Chrome) |
 | `--link-timeout S` | `300` | doğrulama postasını bekleme saniyesi |
 | `--grant-wait S` | `150` | yeni bir anahtarın 401 penceresinin beklendiği saniye |

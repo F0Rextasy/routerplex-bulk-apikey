@@ -30,7 +30,7 @@
  *   --model <id>     model used for the live gate      [deepseek-v4.1-flash]
  *   --tool <id>      setup wizard tool that claims the trial    [claude-code]
  *   --pool <file>    proxy list, one line per exit (env ROUTERPLEX_PROXIES) [optional]
- *   --tries N        exit candidates vetted per account                    [3]
+ *   --exits N        exit candidates vetted per account                    [6]
  *   --mint-tries N   full sign-up attempts (fresh mailbox + Chrome) per exit  [3]
  *   --gap MS         pause between accounts                                [4000]
  *   --timeout MS     per-request timeout (node side)                      [60000]
@@ -100,13 +100,17 @@ if (has('help') || has('h')) {
   --model <id>   model used for the live gate       [deepseek-v4.1-flash]
   --tool <id>    setup wizard tool that claims the trial      [claude-code]
   --pool <file>  proxy list, one exit per line (env ROUTERPLEX_PROXIES) [optional]
-  --tries N      exit candidates vetted per account                      [3]
+  --exits N      exit candidates vetted per account                      [6]
   --link-timeout S   seconds to wait for the verification mail          [300]
   --grant-wait S     seconds a fresh key's 401 window is waited out     [150]
   --insecure     accept the self-signed cert some HTTP exits inject (opt-in)
   --keys <file>  key file for --verify-only                [keys.txt]
   --headless     run Chrome headless (a visible Chrome is the tested rail)
   --debug-port N Chrome DevTools port — a free nonzero one picked by default
+
+Keys: keys.txt keeps the keys that answered a live chat call; keys-dead.txt (next
+to the keys file) gets key<TAB>reason<TAB>iso for the keys a panel REFUSED
+(401/402/403/410) — a 404, a 429 or a 5xx is never filed.
 
 Sign-up carries a Cloudflare Turnstile token in the register body and the $1
 trial key only exists behind the panel's onboarding route, so the tool drives a
@@ -121,7 +125,7 @@ run still works where the network reaches routerplex.com.
 
 const COUNT = Math.max(1, parseInt(arg('count', '1'), 10) || 1);
 const MODEL = arg('model', process.env.ROUTERPLEX_MODEL || 'deepseek-v4.1-flash');
-const TRIES = Math.max(1, parseInt(arg('tries', '3'), 10) || 3);
+const EXITS = Math.max(1, parseInt(arg('exits', '6'), 10) || 6);
 const GAP_MS = Math.max(0, parseInt(arg('gap', '4000'), 10) || 0);
 const TIMEOUT_MS = Math.max(5000, parseInt(arg('timeout', '60000'), 10) || 60000);
 const LINK_TIMEOUT_MS = Math.max(30000, (parseInt(arg('link-timeout', '300'), 10) || 300) * 1000);
@@ -137,6 +141,11 @@ const SCREEN = has('screen');
 const CONNECT_9ROUTER = has('connect-9router');
 const KEYS_ARG = arg('keys', KEYS_FILE);
 const KEYS_PATH = path.isAbsolute(KEYS_ARG) ? KEYS_ARG : fs.existsSync(KEYS_ARG) ? path.resolve(KEYS_ARG) : path.resolve(ROOT, KEYS_ARG);
+/** Dead keys are filed next to the keys file: `key<TAB>reason<TAB>ISO`. */
+const DEAD_PATH = path.join(path.dirname(KEYS_PATH), 'keys-dead.txt');
+/** The captcha step: the panel's own Turnstile widget, read back from the page
+ *  we drive over the pinned exit (see src/solver.js). */
+const { solveTurnstile } = require('./solver.js');
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 fs.mkdirSync(OUT_DIR, { recursive: true });
@@ -871,22 +880,6 @@ class Page {
       fs.writeFileSync(path.join(SHOTS_DIR, `${name}.png`), Buffer.from(r.data, 'base64'));
     } catch (e) { /* diagnostics only */ }
   }
-  /** One real click on the Turnstile widget — a managed challenge usually
-   *  self-solves, but an interactive widget needs the mouse. */
-  async pokeTurnstile() {
-    const box = await this.eval(
-      `(() => { const f = [...document.querySelectorAll('iframe')].find((x) => /challenges\\.cloudflare\\.com/.test(x.src || '')); if (!f) return null; const r = f.getBoundingClientRect(); return { x: r.left, y: r.top, w: r.width, h: r.height }; })()`,
-      { timeoutMs: 20000 }
-    ).catch(() => null);
-    if (!box || box.w < 10) return false;
-    const x = box.x + Math.min(30, box.w / 2);
-    const y = box.y + box.h / 2;
-    await this.cdp.send('Input.dispatchMouseEvent', { type: 'mouseMoved', x, y }, this.sessionId);
-    await this.cdp.send('Input.dispatchMouseEvent', { type: 'mousePressed', x, y, button: 'left', buttons: 1, clickCount: 1 }, this.sessionId);
-    await sleep(70);
-    await this.cdp.send('Input.dispatchMouseEvent', { type: 'mouseReleased', x, y, button: 'left', buttons: 0, clickCount: 1 }, this.sessionId);
-    return true;
-  }
 }
 
 // ---------------------------------------------------------- in-page helpers
@@ -1055,16 +1048,7 @@ async function mintOnExit(n, exit) {
       // A managed widget either answers in ~15 s or never does; sitting on a dead
       // page for a minute costs more than a reload, which usually gets a fresh
       // widget (measured 2026-10-21: EMPTY page → 794-char token after reload).
-      let tok = '';
-      for (let i = 0; i < 20 && !tok; i++) {
-        tok = await page.eval(`window.__rp.turnstile()`).catch(() => '');
-        if (!tok) {
-          if (i === 5 && !HEADLESS) await page.pokeTurnstile().catch(() => false);
-          await sleep(1500);
-        }
-      }
-      log(`  turnstile ${tok ? `${String(tok).slice(0, 12)}… (${String(tok).length})` : 'EMPTY'}`);
-      return tok;
+      return solveTurnstile(page, { poke: !HEADLESS, log });
     };
 
     let token = '';
@@ -1150,7 +1134,10 @@ async function mintOnExit(n, exit) {
     // 7) live proof through the same pinned exit — the key is kept only on 200
     stage = 'verify-key';
     const proof = await proveKey(exit, key);
-    if (!proof.ok) throw new Error(`chat gate ${proof.status}: ${String(proof.sample).slice(0, 120)}`);
+    if (!proof.ok) {
+      fileDeadIfRefused(key, proof.status, proof.sample);
+      throw new Error(`chat gate ${proof.status}: ${String(proof.sample).slice(0, 120)}`);
+    }
     await page.shoot('06-live');
 
     log(`account ${n}: key LIVE on ${proof.model} (${proof.models} models) · ${key.slice(0, 12)}… · ${Math.round((Date.now() - started) / 1000)}s`);
@@ -1178,7 +1165,8 @@ async function mintOnExit(n, exit) {
 }
 
 async function attemptAccount(n, exits, seed) {
-  const limit = Math.min(TRIES, exits.length);
+  const limit = Math.min(EXITS, exits.length);
+  let deadCandidates = 0;
   for (let t = 0; t < limit; t++) {
     const exit = exits[(seed + t) % exits.length];
     let vet;
@@ -1190,23 +1178,27 @@ async function attemptAccount(n, exits, seed) {
     if (!vet.ok) {
       log(`account ${n}: exit ${labelOf(exit)} failed the vet (${vet.why}) — trying the next one`);
       ledger({ account: n, exit: labelOf(exit), class: 'exit-vet', detail: vet.why });
+      deadCandidates++;
       continue;
     }
     log(`account ${n}: exit pinned ${labelOf(exit)} (vet ${vet.ms}ms)`);
     // The mailbox rail is the flaky half: a dead box costs one full attempt,
     // then the next try builds a new box (and a new Chrome) on the same exit.
+    let exitDead = 0;
     for (let m = 1; m <= MINT_TRIES; m++) {
       try {
-        return await mintOnExit(n, exit);
+        return { rec: await mintOnExit(n, exit) };
       } catch (e) {
         const cls = classify(e);
+        if (cls === 'exit') exitDead++;
         log(`account ${n}: ${cls} failed (try ${m}/${MINT_TRIES}) — ${String(e.message).slice(0, 150)}`);
         ledger({ account: n, exit: labelOf(exit), class: cls, stage: e.rpStage, try: m, detail: String(e.message).slice(0, 300) });
         if (m < MINT_TRIES && GAP_MS) await sleep(GAP_MS);
       }
     }
+    if (exitDead === MINT_TRIES) deadCandidates++;
   }
-  return null;
+  return { rec: null, allTransportDead: deadCandidates > 0 && deadCandidates === limit };
 }
 
 // ------------------------------------------------------------ key handling
@@ -1223,6 +1215,22 @@ function readKeys(file = KEYS_PATH) {
 }
 function appendKey(key) {
   fs.appendFileSync(KEYS_FILE, (fs.existsSync(KEYS_FILE) && fs.statSync(KEYS_FILE).size ? '\n' : '') + key + '\n');
+}
+
+/**
+ * Dead-key report: `key<TAB>reason<TAB>ISO`, one line per key the panel refused.
+ * Only a refusal is a verdict — 401/402/403/410 are filed, while a 404, a 429,
+ * a 5xx or a transport error means "try again" and is never written.
+ */
+const DEAD_STATUS = new Set([401, 402, 403, 410]);
+function fileDeadIfRefused(key, status, sample) {
+  const s = Number(status);
+  if (!DEAD_STATUS.has(s)) return null;
+  const t = String(sample || '');
+  const why = /quota|balance|credit|insufficient|exceed/i.test(t) ? `${s} quota`
+    : /ban|suspend|disabl|forbidden|block/i.test(t) ? `${s} ban` : String(s);
+  try { fs.appendFileSync(DEAD_PATH, `${key}\t${why}\t${new Date().toISOString()}\n`); } catch (e) { /* a report must never break the run */ }
+  return why;
 }
 function loadAccounts() {
   try { return JSON.parse(fs.readFileSync(ACCOUNTS_FILE, 'utf8')); } catch { return []; }
@@ -1314,15 +1322,22 @@ async function mint(exits) {
   log(`routerplex mint · ${COUNT} account(s) · model ${MODEL} · exits ${exits.filter(Boolean).length || 'direct'} · keys land in ${KEYS_FILE}`);
   const accounts = loadAccounts();
   let made = 0;
+  const routes = Math.min(EXITS, exits.length);
+  let transportDead = 0;
   for (let i = 0; i < COUNT; i++) {
-    const rec = await attemptAccount(i + 1, exits, i);
-    if (rec) {
-      appendKey(rec.key);
-      accounts.push(rec);
+    const out = await attemptAccount(i + 1, exits, i);
+    if (out.rec) {
+      appendKey(out.rec.key);
+      accounts.push(out.rec);
       saveAccounts(accounts);
       made++;
-    }
+    } else if (out.allTransportDead) transportDead++;
     if (i < COUNT - 1 && GAP_MS) await sleep(GAP_MS);
+  }
+  if (!made && transportDead === COUNT) {
+    const route = exits[0] === null ? 'direct mode (no proxy list)' : `${exits.length}-exit pool`;
+    console.error(`[fatal] no usable route — ${COUNT} account(s) × ${routes} candidate(s) over ${route}: every attempt died at the transport layer.`);
+    process.exit(1);
   }
   log(`done — ${made}/${COUNT} key(s) written to ${KEYS_FILE}`);
   process.exit(made === COUNT ? 0 : 1);
@@ -1336,6 +1351,9 @@ async function verifyOnly(exits) {
   }
   console.log(`keys: ${keys.length} from ${KEYS_PATH} · exits ${exits.filter(Boolean).length || 'direct'}`);
   let live = 0;
+  // Refused keys leave keys.txt for keys-dead.txt; anything that is not a
+  // verdict (404/429/5xx/transport) stays in the list for the next run.
+  const dead = [];
   let modelCount = null;
   for (let i = 0; i < keys.length; i++) {
     const exit = exits[i % exits.length];
@@ -1347,10 +1365,16 @@ async function verifyOnly(exits) {
       }
       const g = await proveKey(exit, keys[i]);
       if (g.ok) live++;
+      else if (fileDeadIfRefused(keys[i], g.status, g.sample)) dead.push(keys[i]);
       console.log(`  ${g.ok ? '✔' : '✘'} ${keys[i].slice(0, 12)}… chat=${g.ok ? 200 : g.status || 0} ${g.ok ? `${g.model} "${g.sample}" rl=${JSON.stringify(g.rateLimits)}` : String(g.sample).slice(0, 90)}`);
     } catch (e) {
       console.log(`  ✘ ${keys[i].slice(0, 12)}… ${String(e.message).slice(0, 90)}`);
     }
+  }
+  if (dead.length) {
+    const gone = new Set(dead);
+    fs.writeFileSync(KEYS_PATH, `${keys.filter((k) => !gone.has(k)).join('\n')}\n`);
+    console.log(`dead: ${dead.length} → ${DEAD_PATH} (removed from ${KEYS_PATH})`);
   }
   console.log(`verify: ${live}/${keys.length} keys live`);
   process.exit(live === keys.length ? 0 : 1);
